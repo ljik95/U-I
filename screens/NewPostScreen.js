@@ -3,9 +3,9 @@ import React from 'react';
 import { Image, TextInput, View } from 'react-native';
 import HeaderButtons from 'react-navigation-header-buttons';
 
-import Fire from '../Fire';
+import Fire from '../db/Fire';
 
-export default class NewPostScreen extends React.Component<Props> {
+export default class NewPostScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'New Post',
     headerRight: (
@@ -13,11 +13,12 @@ export default class NewPostScreen extends React.Component<Props> {
         <HeaderButtons.Item
           title="Share"
           onPress={() => {
-            const text = navigation.getParam('text');
             const image = navigation.getParam('image');
-            if (text && image) {
+            const title = navigation.getParam('title');
+            const description = navigation.getParam('description');
+            if (image && title && description) {
               navigation.goBack();
-              Fire.shared.post({ text: text.trim(), image });
+              Fire.shared.post({ image, title, description: description.trim() });
             } else {
               alert('Need valid description');
             }
@@ -27,7 +28,7 @@ export default class NewPostScreen extends React.Component<Props> {
     ),
   });
 
-  state = { text: '' };
+  state = { description: '' , title: '' };
 
   render() {
     const { image } = this.props.navigation.state.params;
@@ -37,15 +38,25 @@ export default class NewPostScreen extends React.Component<Props> {
           source={{ uri: image }}
           style={{ resizeMode: 'contain', aspectRatio: 1, width: 72 }}
         />
-        <TextInput
-          multiline
-          style={{ flex: 1, paddingHorizontal: 16 }}
-          placeholder="Add a neat description..."
-          onChangeText={text => {
-            this.setState({ text });
-            this.props.navigation.setParams({ text });
-          }}
-        />
+        <View style={{ flexDirection: 'vertical' }}>
+          <TextInput
+            style={{ flex: 1, paddingHorizontal: 16, fontWeight: 'bold' }}
+            placeholder="Add a title..."
+            onChangeText={title => {
+              this.setState({ title });
+              this.props.navigation.setParams({ title });
+            }}
+          />
+          <TextInput
+            multiline
+            style={{ flex: 1, paddingHorizontal: 16 }}
+            placeholder="Add a description..."
+            onChangeText={description => {
+              this.setState({ description });
+              this.props.navigation.setParams({ description });
+            }}
+          />
+        </View>
       </View>
     );
   }

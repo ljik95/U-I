@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, Button } from "react-native";
 
 const profileImageSize = 36;
 const padding = 12;
@@ -18,8 +18,8 @@ export default class Item extends React.Component {
   }
 
   render() {
-    const { text, name, imageWidth, imageHeight, uid, image } = this.props;
-
+    const { description, title, imageWidth, imageHeight, uid, image, navigation } = this.props;
+    const name = navigation.state.params.name
     // Reduce the name to something
     const imgW = imageWidth || this.state.width;
     const imgH = imageHeight || this.state.height;
@@ -27,7 +27,7 @@ export default class Item extends React.Component {
 
     return (
       <View>
-        <Header image={{ uri: image }} name={name} />
+        <Header image={{ uri: image }} name={name} title={title} navigation={this.props.navigation} />
         <Image
           resizeMode="contain"
           style={{
@@ -37,27 +37,30 @@ export default class Item extends React.Component {
           }}
           source={{ uri: image }}
         />
-        <Metadata name={name} description={text} />
+        <Metadata name={name} title={title} description={description} />
       </View>
     );
   }
 }
 
-const Metadata = ({ name, description }) => (
+const Metadata = ({ name, title, description }) => (
   <View style={styles.padding}>
     <IconBar />
     <Text style={styles.text}>{name}</Text>
+    <Text style={styles.title}>{title}</Text>
     <Text style={styles.subtitle}>{description}</Text>
   </View>
 );
 
-const Header = ({ name, image }) => (
+const Header = ({ name, image, title, navigation }) => (
   <View style={[styles.row, styles.padding]}>
     <View style={styles.row}>
       <Image style={styles.avatar} source={image} />
       <Text style={styles.text}>{name}</Text>
     </View>
-    <Icon name="ios-more" />
+    <Button title="" onPress={() => navigation.navigate("EditPost", { oldTitle: title })}>
+      <Icon name="ios-more" />
+    </Button>
   </View>
 );
 
@@ -77,7 +80,12 @@ const IconBar = () => (
 );
 
 const styles = StyleSheet.create({
-  text: { fontWeight: "600" },
+  title: {
+    fontWeight: "500"
+  },
+  text: {
+    fontWeight: "700"
+  },
   subtitle: {
     opacity: 0.8
   },

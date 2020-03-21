@@ -5,7 +5,7 @@ import Footer from './Footer';
 import Item from './Item';
 
 class List extends React.Component {
-  renderItem = ({ item }) => <Item {...item} />;
+  renderItem = ({ item }) => <Item {...item} navigation={this.props.navigation} />;
   keyExtractor = item => item.key;
   render() {
     const { onPressFooter, ...props } = this.props;

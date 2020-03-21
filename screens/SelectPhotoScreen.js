@@ -6,6 +6,7 @@ import * as ImagePicker from "expo-image-picker";
 import getPermission from "../utils/getPermission";
 
 const options = {
+  mediaTypes: ImagePicker.MediaTypeOptions.All,
   allowsEditing: true
 };
 

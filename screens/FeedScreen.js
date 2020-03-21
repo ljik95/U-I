@@ -3,13 +3,14 @@ import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl } from "react-native";
 
 import List from "../components/List";
-import Fire from "../Fire";
+import Fire from "../db/Fire";
 
 // Set the default number of images to load for each pagination.
 const PAGE_SIZE = 5;
 console.disableYellowBox = true;
 export default class FeedScreen extends Component {
   state = {
+    name: '',
     loading: false,
     posts: [],
     data: {}
@@ -56,7 +57,8 @@ export default class FeedScreen extends Component {
     // The data prop will be an array of posts, the cursor will be used for pagination.
     const { data, cursor } = await Fire.shared.getPaged({
       size: PAGE_SIZE,
-      start: lastKey
+      start: lastKey,
+      name: this.state.name,
     });
 
     this.lastKnownKey = cursor;
@@ -91,6 +93,7 @@ export default class FeedScreen extends Component {
         }
         onPressFooter={this.onPressFooter}
         data={this.state.posts}
+        navigation={this.props.navigation}
       />
     );
   }

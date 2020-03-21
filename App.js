@@ -6,7 +6,11 @@ import {
 
 import tabBarIcon from './utils/tabBarIcon';
 // Import the screens
+// import ChatScreen from './screens/ChatScreen';
+import CreateAccountScreen from './screens/CreateAccountScreen';
+import EditPostScreen from './screens/EditPostScreen';
 import FeedScreen from './screens/FeedScreen';
+import LoginScreen from './screens/LoginScreen';
 import NewPostScreen from './screens/NewPostScreen';
 import SelectPhotoScreen from './screens/SelectPhotoScreen';
 
@@ -29,6 +33,12 @@ const navigator = createBottomTabNavigator(
         tabBarIcon: tabBarIcon('add-circle'),
       },
     },
+    // Chat: {
+    //   screen: ChatScreen,
+    //   navigationOptions: {
+    //     tabBarIcon: tabBarIcon('chat')
+    //   }
+    // },
   },
   {
     // We want to hide the labels and set a nice 2-tone tint system for our tabs
@@ -43,13 +53,16 @@ const navigator = createBottomTabNavigator(
 // Create the navigator that pushes high-level screens like the `NewPost` screen.
 const stackNavigator = createStackNavigator(
   {
+    Login: LoginScreen,
+    CreateAccount: CreateAccountScreen,
     Main: {
       screen: navigator,
       // Set the title for our app when the tab bar screen is present
-      navigationOptions: { title: 'Instaham 🐷' },
+      navigationOptions: { title: 'U&I 🐷' },
     },
     // This screen will not have a tab bar
     NewPost: NewPostScreen,
+    EditPost: EditPostScreen,
   },
   {
     cardStyle: { backgroundColor: 'white' },
