@@ -34,16 +34,19 @@ class Fire {
   }
 
   // Download Data
-  getPaged = async ({ size, start, name }) => {
+  getPaged = async ({ size, start, name, email }) => {
     let ref = this.photoCollection.orderBy('timestamp', 'desc').limit(size);
     try {
       if (start) {
         ref = ref.startAfter(start);
       }
 
-      const querySnapshot = await ref.get();
+      // const querySnapshot = await ref.get();
       const data = [];
-      querySnapshot.forEach(function(doc) {
+      console.log(email);
+      const querySnapshot = await ref.where('email', '==', email).get();
+
+      querySnapshot.forEach((doc) => {
         if (doc.exists) {
           const post = doc.data() || {};
 
@@ -52,7 +55,7 @@ class Fire {
 
           const reduced = {
             key: doc.id,
-            name: (name || 'Secret Duck').trim(),
+            name: (name).trim(),
             ...post,
           };
           data.push(reduced);
@@ -194,7 +197,7 @@ class Fire {
   get uid() {
     return (firebase.auth().currentUser || {}).uid;
   }
-  
+
   get timestamp() {
     return Date.now();
   }

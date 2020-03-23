@@ -11,6 +11,7 @@ console.disableYellowBox = true;
 export default class FeedScreen extends Component {
   state = {
     name: '',
+    email: '',
     loading: false,
     posts: [],
     data: {}
@@ -58,7 +59,8 @@ export default class FeedScreen extends Component {
     const { data, cursor } = await Fire.shared.getPaged({
       size: PAGE_SIZE,
       start: lastKey,
-      name: this.state.name,
+      name: this.props.navigation.state.params.name,
+      email: this.props.navigation.state.params.email,
     });
 
     this.lastKnownKey = cursor;

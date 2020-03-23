@@ -22,6 +22,7 @@ class Login extends React.Component {
     if (user) {
         this.props.navigation.navigate('Feed', {
           name: user.name,
+          email: user.email,
         });
     }
   };
